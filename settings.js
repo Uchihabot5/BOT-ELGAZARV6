@@ -15,23 +15,23 @@ global.doc5 = 'application/pdf'
 global.doc6 = 'application/vnd.android.package-archive'
 
 //owmner v card
-global.owner = ['201098906252'] //ur owner number
-global.ownername = "ᗴᒪᘜᗩᘔᗩᖇ ᗩᒪᗯᗩᘔᗴᖇ❤️" //ur owner name
-global.ytname = "YT: ELGAZAR" //ur yt chanel name
-global.socialm = "GitHub: ELGAZAR" //ur github or insta name
+global.owner = ['201555279812'] //ur owner number
+global.ownername = "𝐔𝐂𝐇𝐈𝐇𝐀 𝐁𝐎𝐓" //ur owner name
+global.ytname = "YT: 𝐒𝐎𝐎𝐍" //ur yt chanel name
+global.socialm = "GitHub: 𝐒𝐀𝐒𝐔𝐊𝐄" //ur github or insta name
 global.location = "Africa, Egypt, Cairo" //ur location
 
 //bot bomdy 
-global.ownernomer = "201098906252" //ur number
-global.premium = ['201098906252'] //ur premium number
-global.botname = '❤️ᗴᒪᘜᗩᘔᗩᖇ ᗷOT❤️' //ur bot name
-global.linkz = "https://youtube.com/@ABDALLAH_MOHAMED" //your theme url which will be displayed on whatsapp
+global.ownernomer = "201555279812" //ur number
+global.premium = ['201555279812'] //ur premium number
+global.botname = '𝐔𝐂𝐇𝐈𝐇𝐀 𝐁𝐎𝐓' //ur bot name
+global.linkz = "𝐒𝐎𝐎𝐍...." //your theme url which will be displayed on whatsapp
 global.websitex = "https://telegra.ph/file/ec763cc3e7c88d0e67682.jpg" //ur website to be displayed
 global.botscript = 'https://youtube.com/@ABDALLAH_MOHAMED' //script link
-global.themeemoji = "♥" //ur theme emoji
-global.packname = "⍣الجزار الوزير يروحي⍣" //ur sticker watermark packname
-global.author = "⍣01098906252⍣" //ur sticker watermark author
-global.wm = "❤️ᗴᒪᘜᗩᘔᗩᖇ ᗷOT❤️." //ur watermark
+global.themeemoji = "🎩" //ur theme emoji
+global.packname = "𝐔𝐂𝐇𝐈𝐇𝐀 𝐊.𝐃.𝐌" //ur sticker watermark packname
+global.author = "𝐔.𝐊.𝐃 𝐁𝐎𝐓🩸" //ur sticker watermark author
+global.wm = "𝐔𝐂𝐇𝐈𝐇𝐀 𝐊𝐈𝐍𝐆𝐃𝐎𝐌🩸" //ur watermark
 
 // Other
 global.sessionName = 'session'
@@ -40,15 +40,15 @@ global.sp = ''
 
 //messages
 global.mess = {
-    success: 'تم يروحي✨',
-    admin: '『 الامر دا لادمن بس! 』',
-    botAdmin: '『 ارفع البوت ادمن الاول 』',
+    success: '⸂تـمـت العملية بنجاح🌙⸃',
+    admin: '『 للمشرفين فقط🌙 』',
+    botAdmin: '『 اعطيني ادمن اولا🌙 』',
     premime: '『 ميزات خاصة متميزة إذا كنت ترغب في تسجيل نوع الإيجار 』',
-    owner: '『 الميزه دي للمطور بس! 』',
-    group: '『 الميزه دي للجروبات بس! 』',
-    private: '『 الميزه دي في الخاص بس! 』',
-    bot: '『 الميزه دي للبوت بس! 』',
-    wait: '『 استني شويه... 』',
+    owner: '『 للمطور فقط 』',
+    group: '『 استعمل الامر في الجروبات🌙 』',
+    private: '『 استعمل الامر في شات البوت🌙 』',
+    bot: '『 لا يمكنني تنفيذ هذا☘️ 』',
+    wait: '『 برجاء الانتظار🚀🛡....... 』',
     linkm: '『 فين الرابط? 』',
     endLimit: 'انتهت صلاحية الحد اليومي الخاص بك ، وسيتم إعادة تعيين الحد كل 12 ساعة',
     nsfw: 'لم يتم تنشيط ميزة nsfw ، يرجى الاتصال بالمسؤول للتفعيل',
