@@ -7468,14 +7468,14 @@ ElgazarBot.sendMessage(from, { text: `*${command}*\n\nالاسم : ${q}\nالا�
       case 'وصخ':
       case 'ورع':
       case 'شاذ':
-      case 'ممحون':
-      case 'زنجي':
-      case 'مشمحترم':
+      case 'علق':
+      case 'متناك':
+      case 'خول':
       case 'وسخ':
-      case 'كاريزما':
+      case 'مكروف':
       case 'هطف':
       case 'اهبل':
-      case 'رخم':
+      case 'معرص':
       case 'عبقري':
       case 'اهطل': {
             if (!m.isGroup) return m.reply(`${mess.group}`)
@@ -9661,7 +9661,7 @@ ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
             break
 
 case 'الاوامر': case 'اوامر': case 'menu': case 'alive': {
-teks = `*❒═━═「𝚁𝙰𝙸𝚉𝙴𝙻」═━═❒*
+teks = `*❒═━═「𝐔𝐂𝐇𝐈𝐇𝐀」═━═❒*
 *⧉┆مرحبا ياصديقي ⤌⤈*    
 *•| ⊱${pushname}⊰ |•*
 *⧉┆انا بوت واتس اسمي*
