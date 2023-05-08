@@ -1123,6 +1123,179 @@ break
             }
             break
             
+            //game
+		
+      case'daily': case'claim': case 'reward': {
+	if (m.quoted?.sender) m.mentionedJid.push(m.quoted.sender)
+        if (isBan) return reply(mess.banned)	 			
+        if (isBanChat) return reply(mess.bangc)
+	    ElgazarBot.sendMessage(from, { react: { text: "💰" , key: m.key }})  
+        let user = m.sender
+	const cara = "cara"
+	const daily  = await eco.daily(user, cara, 9999); //give 999 for daily, can be changed
+	
+	        if (daily.cd) return replay(`You already claimed daily for today, come back in ${daily.cdL}`); //cdL is already formatted cooldown Left
+	
+            replay(`You claimed 💎${daily.amount} for daily`);        
+}
+break
+		
+				
+
+  case'wallet':  case 'purse': {
+
+        if (isBan) return reply(mess.banned)	 			
+
+        if (isBanChat) return reply(mess.bangc)
+	  ElgazarBot.sendMessage(from, { react: { text: "💳" , key: m.key }})
+
+	if (m.quoted?.sender) m.mentionedJid.push(m.quoted.sender)
+
+    const user = m.sender
+
+    const cara = "cara"
+
+    const balance = await eco.balance(user, cara); //Returns wallet, bank, and bankCapacity. Also creates a USer if it doesn't exist.
+
+    await replay(`👛 ${pushname}'s Purse:\n\n_💎${balance.wallet}_`);
+
+}
+
+break
+
+    	
+	case'bank':  case 'بنك': {
+	if (m.quoted?.sender) m.mentionedJid.push(m.quoted.sender)
+        if (isBan) return reply(mess.banned)	 			
+        if (isBanChat) return reply(mess.bangc)	
+ElgazarBot.sendMessage(from, { react: { text: "💳" , key: m.key }})
+		
+    const user = m.sender
+    const cara = "cara"
+    const balance = await eco.balance(user, cara); //Returns wallet, bank, and bankCapacity. Also creates a USer if it doesn't exist.
+    await replay(`🏦 ${pushname}'s Bank:\n\n_💎${balance.bank}/${balance.bankCapacity}_`); 
+}
+break
+		
+		
+		case'capacity':  case 'bankupgrade': {
+			ElgazarBot.sendMessage(from, { react: { text: "💲" , key: m.key }})
+		
+	//if (!isCreator) return replay(mess.botowner)
+	if (!text) return replay(`💴 Bank-capacity 💳\n\n1 | 1000 sp = 💎100\n\n2 | 10000 sp = 💎1000\n\n3 | 100000 sp = 💎10000\n\nExample- ${prefix}capacity 1 OR ${prefix}bankupgrade 1000`)	
+	if (m.quoted?.sender) m.mentionedJid.push(m.quoted.sender)
+        const user = m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
+	const cara = "cara"
+	let value = text.trim();
+	let k = parseInt(value)
+	const balance  = await eco.balance(user, cara) 
+  switch (value) {
+          case '1000':
+          case '1':
+          if (k > balance.wallet ) return replay(`You need to pay 💎100 to increase bank capacity ~ 1000 sp`);
+            const deduct1 = await eco.deduct(user, cara, 100);
+            const add1 = eco.giveCapacity(user, cara, 1000); 
+                await replay(`1000 💎diamond storage has been added in ${pushname} bank`)
+         case '10000':
+          case '2':
+          if (k > balance.wallet ) return replay(`You need to pay 💎1000 to increase bank capacity ~ 10000 sp`);
+            const deduct2 = await eco.deduct(user, cara, 1000);
+            const add2 = eco.giveCapacity(user, cara, 10000); 
+                await replay(`10000 💎diamond storage has been added in ${pushname} bank`)
+         case '100000':
+          case '3':
+          if (k > balance.wallet ) return replay(`You need to pay 💎10000 to increase bank capacity ~ 100000 sp`);
+            const deduct3 = await eco.deduct(user, cara, 10000);
+            const add3 = eco.giveCapacity(user, cara, 100000); 
+                await replay(`100000 💎diamond storage has been added in ${pushname} bank`)
+          }
+            }
+                break
+		
+		
+		  
+		  
+	case'deposit':  case 'pay-in': {
+        if (isBan) return reply(mess.banned)
+	ElgazarBot.sendMessage(from, { react: { text: "📥" , key: m.key }})
+		
+        if (m.quoted?.sender) m.mentionedJid.push(m.quoted.sender)
+		if (!text) return replay("Provide the amount you want to deposit!");
+		const texts = text.trim();
+		const user = m.sender;
+		const cara = 'cara'
+        const deposit = await eco.deposit(user, cara, texts);
+            if(deposit.noten) return replay('You can\'t deposit what you don\'t have.'); //if user states more than whats in his wallet
+             replay(`Successfully Deposited 💎${deposit.amount} to your bank.`)
+		
+}
+break	
+		
+	case 'كوت': {
+    if (!args[0] && !m.quoted) {
+      return m.reply(`يرجى تقديم نص (اكتب أو ذكر رسالة) !`);
+    }
+        
+    let userPfp;
+    if (m.quoted) {
+      try {
+        userPfp = await ElgazarBot.profilePictureUrl(m.quoted.sender, "image");
+      } catch (e) {
+        userPfp = botImage3;
+      }
+    } else {
+      try {
+        userPfp = await ElgazarBot.profilePictureUrl(m.sender, "image");
+      } catch (e) {
+        userPfp = botImage3;
+      }
+    }
+      
+  
+    const waUserName = pushname;
+    const quoteText = m.quoted ? m.quoted.body : args.join(" ");
+  
+    const quoteJson = {
+      type: "quote",
+      format: "png",
+      backgroundColor: "#FFFFFF",
+      width: 700,
+      height: 580,
+      scale: 2,
+      messages: [
+        {
+          entities: [],
+          avatar: true,
+          from: {
+            id: 1,
+            name: waUserName,
+            photo: {
+              url: userPfp,
+            },
+          },
+          text: quoteText,
+          replyMessage: {},
+        },
+      ],
+    };
+  
+    try {
+      const quoteResponse = await axios.post("https://bot.lyo.su/quote/generate", quoteJson, {
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      const buffer = Buffer.from(quoteResponse.data.result.image, "base64");
+      ElgazarBot.sendImageAsSticker(m.chat, buffer, m, {
+        packname: `${global.BotName}`,
+        author: waUserName,
+      });
+    } catch (error) {
+      console.error(error);
+      m.reply("Error generating quote!");
+    }
+    break;
+  }
+  
             case 'فارقني': case 'فراق': {
             if (!m.isGroup) throw mess.group
             let member = participants.map(u => u.id)
@@ -1241,7 +1414,7 @@ break
           m.reply(`Exif has been successfully changed to\n\n${themeemoji} Packname : ${global.packname}\n${themeemoji} Author : ${global.author}`)
             }
             break
-	/*case 'kick': case 'طرد': case 'اطرد': {
+	/*case 'kick': case 'طرد': case 'اطرد': case 'ركل': {
 		if (!m.isGroup) throw mess.group
                 if (!isBotAdmins) throw mess.botAdmin
                 if (!isAdmins) throw mess.admin
@@ -1249,14 +1422,14 @@ break
 		await ElgazarBot.groupParticipantsUpdate(m.chat, [users], 'remove').then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
 	}
 	break*/
-	case 'add': case 'اضافه': case 'ضيف': {
+	/*case 'add': case 'ضيف': case 'اضافه': {
 		if (!m.isGroup) throw mess.group
                 if (!isBotAdmins) throw mess.botAdmin
                 if (!isAdmins) throw mess.admin
 		let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 		await ElgazarBot.groupParticipantsUpdate(m.chat, [users], 'add').then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
 	}
-	break
+	break*/
 	case 'promote': case 'رفع': case 'ترقيه': case 'ترقية': case 'ارفع': {
 		if (!m.isGroup) throw mess.group
                 if (!isBotAdmins) throw mess.botAdmin
@@ -1301,7 +1474,7 @@ break
                 await ElgazarBot.groupUpdateDescription(m.chat, text).then((res) => m.reply(mess.success)).catch((err) => m.reply(jsonformat(err)))
             }
             break
-          case 'setbotpp': case 'حطهاخلفيه': {
+          case 'خلفيتك': case 'حطهاخلفيه': {
                 if (!isCreator) throw mess.owner
                 if (!quoted) throw `رد علي صوره واكتب الامر ${prefix + command}`
                 if (!/image/.test(mime)) throw `رد علي صوره واكتب الامر ${prefix + command}`
@@ -1322,13 +1495,13 @@ break
                 m.reply(mess.success)
                 }
                 break
-            case 'tagall': case 'منشن': case 'ازعاج': {
+            case 'tagall': case 'منشن': case 'ازعاج': case 'تاج': {
                 if (!m.isGroup) throw mess.group
                 if (!isBotAdmins) throw mess.botAdmin
                 if (!isAdmins) throw mess.admin
-let teks = `══✪〘˙·٠${themeemoji}● منشن للكل ●${themeemoji}٠·˙〙✪══
+let teks = `══✪〘˙·٠${themeemoji} منشن للكل ${themeemoji}٠·˙〙✪══
  
- 🌿 *الرساله : ${q ? q : 'مفيش رساله'}*\n\n`
+ 🌿 *الرساله : ${q ? q : 'صحو النوم'}*\n\n`
                 for (let mem of participants) {
                 teks += `${themeemoji} @${mem.id.split('@')[0]}\n`
                 }
@@ -1342,7 +1515,22 @@ let teks = `══✪〘˙·٠${themeemoji}● منشن للكل ●${themeemoji
             ElgazarBot.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted: m })
             }
             break
-	    case 'style': case 'زغرفه': {
+            case'المشرفين': case 'admins': case 'admin': {
+    if (isBan) return reply(mess.banned)	 			
+ if (isBanChat) return reply(mess.bangc)
+ if (!m.isGroup) return replay(mess.grouponly) 
+ ElgazarBot.sendMessage(from, { react: { text: "🗿" , key: m.key }})
+ if (!text) return replay(`*اكتب شي بعد المنشن*`)
+ let teks = `*「 منشن للمشرفين 」*
+  
+ *الرساله : ${text}*\n\n`
+ for (let mem of groupAdmins) {
+ teks += `🍁 @${mem.split('@')[0]}\n`
+ }
+ ElgazarBot.sendMessage(m.chat, { text: teks, mentions: groupAdmins}, { quoted: m })
+ }
+ break
+	    case 'زخرفه': case 'زغرفه': {
 	        if (!isPremium && global.db.data.users[m.sender].limit < 1) return m.reply(mess.endLimit) // response when limit runs out
 		db.data.users[m.sender].limit -= 1 // -1 limit
 		let { styletext } = require('./lib/scraper')
@@ -1527,8 +1715,8 @@ case 'group': case 'جروب': {
                     await ElgazarBot.groupSettingUpdate(m.chat, 'not_announcement').then((res) => m.reply(`*تم فتح الجروب*`)).catch((err) => m.reply(jsonformat(err)))
                 } else {
                 let buttons = [
-                        { buttonId: 'جروب فتح', buttonText: { displayText: 'فتح' }, type: 1 },
-                        { buttonId: 'جروب قفل', buttonText: { displayText: 'قفل' }, type: 1 }
+                        { buttonId: 'group open', buttonText: { displayText: 'فتح' }, type: 1 },
+                        { buttonId: 'group close', buttonText: { displayText: 'قفل' }, type: 1 }
                     ]
                     await ElgazarBot.sendButtonText(m.chat, buttons, `حاله الجروب`, botname, m)
 
@@ -1553,17 +1741,18 @@ case 'group': case 'جروب': {
             }
             }
             break
-case 'stupidcheck':case 'uncleancheck':
-case 'hotcheck': case 'smartcheck':
+/*case 'وضيفتي':case 'وظيفه':
+case 'وظيفتي': case 'وضيفه':
 case 'greatcheck':
 case 'evilcheck':case 'dogcheck':
 case 'coolcheck':
 case 'waifucheck':
 cantik = body.slice(1)
-const okebnh1 =['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61','62','63','64','65','66','67','68','69','70','71','72','73','74','75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','100']
+const okebnh1 =[مهندس','مؤذن','حمار','شحات','حارس','طبيب','مزارع','سواق','طيار','طباخ','ميكانيكي','تاجر','فلاح','سكرتير','محاسب','مغني','رقاص']
 const xeonkak = okebnh1[Math.floor(Math.random() * okebnh1.length)]
-ElgazarBot.sendMessage(m.chat, { text: xeonkak }, { quoted: m })
-break
+                    await ElgazarBot.sendButtonText(m.chat, buttons, jawab, botname, m)
+            }
+            break*/
 case 'mute': {
                 if (!m.isGroup) throw mess.group
                 if (!isBotAdmins) throw mess.botAdmin
@@ -1626,7 +1815,7 @@ break
                 ElgazarBot.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: true, id: m.quoted.id, participant: m.quoted.sender } })
             }
             break
-            case 'report': case 'ابلاغ': {
+            case 'jhgghhvgg': case 'اهتلبعتاابب': {
             	if (!text) throw `Example : ${prefix + command} Report an error feature`
                let ownernya = ownernomer + '@s.whatsapp.net'
                let me = m.sender
@@ -1724,7 +1913,59 @@ case 'sticker': case 's': case 'ملصق': case 'ستيكر': {
             let eb = await eBinary(text)
             m.reply(eb)
         }
-        break
+        break 
+        case 'sticget':
+            case 'حقوقي':
+            case 'take':
+            case 'ملصقي':
+                try {
+                    if (!q) return await conn.sendMessage(from, { text: 'enter packname and creater name\n ex : ' + prefix + 'sticget bobiz sticker;multi device' }, { quoted: mek })
+                    var packname = ''
+                    var creater = ''
+                    if (q.includes(';')) {
+                        var split = q.split(';');
+                        packname = split[0];
+                        creater = split[1]
+                    } else {
+                        packname = q;
+                        creater = '';
+                    }
+                    const v = sms(conn, mek)
+                    const isQuotedViewOnce = v.quoted ? (v.quoted.type === 'viewOnceMessage') : false
+                    const isQuotedImage = v.quoted ? ((v.quoted.type === 'imageMessage') || (isQuotedViewOnce ? (v.quoted.msg.type === 'imageMessage') : false)) : false
+                    const isQuotedVideo = v.quoted ? ((v.quoted.type === 'videoMessage') || (isQuotedViewOnce ? (v.quoted.msg.type === 'videoMessage') : false)) : false
+
+                    const isQuotedSticker = v.quoted ? (v.quoted.type === 'stickerMessage') : false
+                    if ((v.type === 'imageMessage') || isQuotedImage) {
+                        const cstic = await conn.sendMessage(from, { text: 'creating' }, { quoted: mek })
+                        var nameJpg = getRandom('')
+                        isQuotedImage ? await v.quoted.download(nameJpg) : await v.download(nameJpg)
+                        var stik = await imageToWebp(nameJpg + '.jpg')
+                        writeExif(stik, { packname: packname, author: creater })
+                            .then(x => v.replyS(x))
+                        await conn.sendMessage(from, { delete: cstic.key })
+                    } else if ((v.type === 'videoMessage') || isQuotedVideo) {
+                        const cstic = await conn.sendMessage(from, { text: 'creating' }, { quoted: mek })
+                        var nameMp4 = getRandom('')
+                        isQuotedVideo ? await v.quoted.download(nameMp4) : await v.download(nameMp4)
+                        writeExif(stik, { packname: packname, author: creater })
+                            .then(x => v.replyS(x))
+                        await conn.sendMessage(from, { delete: cstic.key })
+                    } else if (isQuotedSticker) {
+                        const cstic = await conn.sendMessage(from, { text: 'creating' }, { quoted: mek })
+                        var nameWebp = getRandom('')
+                        await v.quoted.download(nameWebp)
+                        writeExif(nameWebp + '.webp', { packname: packname, author: creater })
+                            .then(x => v.replyS(x))
+                        await conn.sendMessage(from, { delete: cstic.key })
+                    } else {
+                        v.reply('reply to sticker , image or video')
+                    }
+                } catch (e) {
+                    return
+
+                }
+                break
             case 'dbinary': {
             if (!text) throw `Example : ${prefix + command} text`
             let { dBinary } = require('./lib/binary')
@@ -1768,8 +2009,8 @@ break
 		}
 	    }
 	    break
-	case 'emojimix2': {
-	    if (!text) throw `Example : ${prefix + command} 😅+🤔`
+	case 'دمج2': {
+	    if (!text) throw `مثال : ${prefix + command} 😅+🤔`
 		let anumix2 = await fetchJson(`https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${encodeURIComponent(text)}`)
 		for (let res of anumix2.results) {
 		    let encmedia = await ElgazarBot.sendImageAsSticker(m.chat, res.url, m, { packname: global.packname, author: global.author, categories: res.tags })
@@ -2005,7 +2246,7 @@ if (!text) return m.reply(`Example : ${prefix + command} Stay jb`)
 *┃🎲الوصف :* ${anulay.description}
 *┃🌿 الرابط :* ${anulay.url}
 
-┃اسم البوت : 📶 𝗕𝗢𝗧 𝗘𝗟𝗚𝗔𝗭𝗔𝗥 📶 
+┃اسم البوت : 📶 𝐑𝐀𝐈𝐙𝐄𝐋_𝐆𝐄𝐎𝐑𝐉𝐄⃤ 📶 
 
 ┗━━━━━━━━━❊`,
                     footer: botname,
@@ -2115,12 +2356,12 @@ break
                 ElgazarBot.sendMessage(m.chat, { video: { url: media.dl_link }, mimetype: 'video/mp4', fileName: `${media.title}.mp4`, caption: `${themeemoji} Title : ${media.title}\n${themeemoji} File Size : ${media.filesizeF}\n${themeemoji} Url : ${isUrl(text)}\n${themeemoji} Ext : MP3\n${themeemoji} Resolution : ${args[1] || '360p'}` }, { quoted: m })
             }
             break
-case 'pinterest': {
+case 'بنتر': {
                 m.reply(mess.wait)
 		let { pinterest } = require('./lib/scraper')
                 anupint = await pinterest(text)
                 result = anupint[Math.floor(Math.random() * anupint.length)]
-                ElgazarBot.sendMessage(m.chat, { image: { url: result }, caption: `${themeemoji} Media Url : `+result }, { quoted: m })
+                ElgazarBot.sendMessage(m.chat, { image: { url: result }, caption: `${themeemoji} رابط الصوره : `+result }, { quoted: m })
             }
             break
             case 'waifu': {
@@ -2160,7 +2401,7 @@ case 'pinterest': {
                 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
             }
             break
-            case 'wallpaper': {
+            case 'خلفيه': {
                 if (!text) throw 'Enter Query Title'
 		let { wallpaper } = require('./lib/scraper')
                 anuwallpep = await wallpaper(text)
@@ -3750,7 +3991,7 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
             break
             
 case 'req': case 'request': {
-            	if (!text) throw `Example : ${prefix + command} Fitur Min`
+            	if (!text) throw `مثال : ${prefix + command} Fitur Min`
                let ownernya = ownernomer + '@s.whatsapp.net'
                let me = m.sender
                let pjtxt = `Message From : @${me.split('@')[0]} \nFor : @${ownernya.split('@')[0]}\n\n${command} ${text}`
@@ -3761,15 +4002,15 @@ case 'req': case 'request': {
             await ElgazarBot.sendButtonText(m.chat, buttons, akhji, botname, m, {mentions: ments, quoted: fkontak})
             }
             break
-case 'report': case 'bug': {
-            	if (!text) throw `Example : ${prefix + command} Report an error feature`
+case 'report': case 'بلاغ': case 'مساعده': {
+            	if (!text) throw `مثال : ${prefix + command} ابلاغ خطأ او امر خاطئ او غلط`
                let ownernya = ownernomer + '@s.whatsapp.net'
                let me = m.sender
                let pjtxt = `Message From : @${me.split('@')[0]} \nFor : @${ownernya.split('@')[0]}\n\n${text}`
                let ments = [ownernya, me]
-               let buttons = [{ buttonId: 'hehehe', buttonText: { displayText: '🙏THANKS FOR THE REPORT' }, type: 1 }]
+               let buttons = [{ buttonId: 'hehehe', buttonText: { displayText: '🙏شكرا عالابلاغ' }, type: 1 }]
             await ElgazarBot.sendButtonText(ownernya, buttons, pjtxt, botname, m, {mentions: ments})
-            let akhji = `Report Sent\nTo Owner @${ownernya.split('@')[0]}\n*Thank you for the report🙏*\n_Your number will be blocked_\n_If the Report is Only Created_`
+            let akhji = `تم ارسال التقرير\nللمطور @${ownernya.split('@')[0]}\n*شكراً على التقرير🙏*\n_سيتم حظر رقمك_\n_اذا تم انشاء التقرير فقط_`
             await ElgazarBot.sendButtonText(m.chat, buttons, akhji, botname, m, {mentions: ments})
             }
             break
@@ -4389,13 +4630,13 @@ case 'dare': case 'تويت':
 "اخر اغنية سمعتها ?", 
 "تكلم عن نفسك", 
 "ليه انت مش سالك", 
-"ما هي عيوب سورس الجزار ؟ ", 
+"ما هي عيوب سورس اوتشيها ؟ ", 
 "اخر كتاب قرآته", 
 "روايتك المفضله ?", 
 "اخر اكله اكلتها", 
 "اخر كتاب قرآته", 
 "ليه عبدالله محمد جدع؟ ", 
- "ليه الجزار جدع؟ ", 
+ "ليه ساسكي جدع؟ ", 
 "افضل يوم ف حياتك", 
 "ليه مضيفتش كل جهاتك", 
 "حكمتك ف الحياه", 
@@ -4406,13 +4647,13 @@ case 'dare': case 'تويت':
 " ما السيء في هذه الحياة ؟ ", 
 "أجمل شيء حصل معك خلال هذا الاسبوع ؟ ", 
 "سؤال ينرفزك ؟ ", 
-" هل يعجبك سورس الجزار ؟؟ ", 
+" هل يعجبك سورس اوتشيها ؟؟ ", 
 " اكثر ممثل تحبه ؟ ", 
 "قد تخيلت شي في بالك وصار ؟ ", 
 "شيء عندك اهم من الناس ؟ ", 
 "تفضّل النقاش الطويل او تحب الاختصار ؟ ", 
 "وش أخر شي ضيعته؟ ", 
-"اي رايك في سورس الجزار ؟ ", 
+"وش رايك في سورس اوتشيها ؟ ", 
 "كم مره حبيت؟ ", 
 " اكثر المتابعين عندك باي برنامج؟", 
 " نسبه الندم عندك للي وثقت فيهم ؟", 
@@ -4701,8 +4942,8 @@ case 'dare': case 'تويت':
   "أجمل شي بحياتك وش هو؟ ",
 ]
               const xeondare = dare[Math.floor(Math.random() * dare.length)]
-              bufferdare = await getBuffer(`https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`)
-              ElgazarBot.sendMessage(from, { image: bufferdare, caption: '*♚ مرحبا بك في قسم تويت*\nꔹ━━━━━ꔹ\n'+ xeondare }, {quoted:m})
+              bufferdare = await getBuffer(`https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`)
+              ElgazarBot.sendMessage(from, { image: bufferdare, caption: '*♚ مرحبا بك في قسم تويت*\nꔹ━━「🩸」━━ꔹ\n'+ xeondare }, {quoted:m})
               break
                             break
        case 'truth': case 'خيروك':
@@ -4805,8 +5046,8 @@ case 'dare': case 'تويت':
 "لو خيروك |  بين مشاركة المنزل مع عائلة من الفئران أو عائلة من الأشخاص المزعجين الفضوليين الذين يتدخلون في كل كبيرة وصغيرة؟ ",
 ]
               const xeontruth = truth[Math.floor(Math.random() * truth.length)]
-              buffertruth = await getBuffer(`https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`)
-              ElgazarBot.sendMessage(from, { image: buffertruth, caption: '*♚ مرحبا بك في لعبة لو خيروك*\nꔹ━━━━━ꔹ\n'+ xeontruth }, {quoted:m})
+              buffertruth = await getBuffer(`https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`)
+              ElgazarBot.sendMessage(from, { image: buffertruth, caption: '*♚ مرحبا بك في لعبة لو خيروك*\nꔹ━━「🩸」━━ꔹ\n'+ xeontruth }, {quoted:m})
               break  
               
      case 'truth1': case 'اذكار':
@@ -4854,8 +5095,8 @@ case 'dare': case 'تويت':
 "‏مامن لسان يستغفر إلا فتحت له الدنيا بما فيها أستغفرك ربي وأتوب إليك "
 ]
               const xeontruth1 = truth1[Math.floor(Math.random() * truth1.length)]
-              buffertruth1 = await getBuffer(`https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`)
-              ElgazarBot.sendMessage(from, { image: buffertruth1, caption: '*♚ مرحبا بك في قسم الاذكار*\nꔹ━━━━━ꔹ\n'+ xeontruth1 }, {quoted:m})
+              buffertruth1 = await getBuffer(`https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`)
+              ElgazarBot.sendMessage(from, { image: buffertruth1, caption: '*♚ مرحبا بك في قسم الاذكار*\nꔹ━━「🩸」━━ꔹ\n'+ xeontruth1 }, {quoted:m})
               break
        
        case 'hfuduf': case 'بوست':
@@ -4967,8 +5208,8 @@ case 'dare': case 'تويت':
 "أنِر ظُلمتي، وامحُ خطيئتي، واقبل توبتي وأعتِق رقبتي يا اللّٰه. إنكَ عفوٌّ تُحِبُّ العفوَ؛ فاعفُ عني 💛 ",
 ]
               const xeonhfuduf = hfuduf[Math.floor(Math.random() * hfuduf.length)]
-              bufferhfuduf = await getBuffer(`https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`)
-              ElgazarBot.sendMessage(from, { image: bufferhfuduf, caption: '*♚ مرحبا بك في البوستات*\nꔹ━━━━━ꔹ\n'+ xeonhfuduf }, {quoted:m})
+              bufferhfuduf = await getBuffer(`https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`)
+              ElgazarBot.sendMessage(from, { image: bufferhfuduf, caption: '*♚ مرحبا بك في البوستات*\nꔹ━━「🩸」━━ꔹ\n'+ xeonhfuduf }, {quoted:m})
               break
        
        case 'gmscat': case 'كت':
@@ -4976,8 +5217,8 @@ case 'dare': case 'تويت':
     "『فيجيتا』","『غوكو』","『شيسوي』","『ايتاشي』","『ناروتو』","『كيلوا』","『لوفي زورو سانجي』","『زاراكي ايزن توسين』","『ناروتو ساسكي كاكاشي』","『مادارا اوبيتو』","『هاشيراما توبيراما』","『انزاي دازاي』","『هاغومورو』","『سوكونا يوجي』","『كاكاشي هاتاكي』","『فوغاكو اوتشيها』","『ناروتو اوزوماكي』","『غارب لوفي ايس ساب』و","『اكاينو اوكيجي كيزارو』","『غون كيلوا』","『اوميني』","『سيلفا زينو نيترو』","『استا يامي』","『كيسكي يوروتشي ايتشيغو』","『ساروتوبي دانزو』","『فوجيتورا』","『نامي روبين』","『هيماواري هينات』","『ستارك جريمجو نيل』","『الوكا』","『شينو كيبا』","『روك لي مايت غاي』","『ايتاشي ساسكي』","『كونان ناغاتو ياهيكو』","『جيرايا تسونادي』","『ساي اينو』","『شينرا』","『ثوركيل ثورفين ثورز』","『اشيلاد』","『لاو ميهوك زورو』","『تيتش ادوارد』","『ناكا اوتشيها』","『هيروزين ساروتوبي』","『مونكي دي لوفي』","『كارين』","『موريا』","『اشورا هامورا』","『انيوشا كاجومي』","『ديدارا ساسوري』","『روجر رايلي』","『تانجيرو نيزيكو』","『زينيتسو اينوسكي』","『زيك ايرين』","『ميكاسا اني』","『ليفاي اكيرمان』","『ايروين مايكي』","『مايكي دراكن』","『هيسوكا』","『ارمين』","『هاتسوني ميكو』","『كورو』","『اوراهارا كيسكي』","『شينوبو كاناو』","『كيسامي اكاشي』","『كوزان』",
 ]
               const xeongmscat = gmscat[Math.floor(Math.random() * gmscat.length)]
-              buffergmscat = await getBuffer(`https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`)
-              ElgazarBot.sendMessage(from, { image: buffergmscat, caption: '*♚ مرحبا بك في كت*\nꔹ━━━━━ꔹ\n'+ xeongmscat }, {quoted:m})
+              buffergmscat = await getBuffer(`https://telegra.ph/file/601f23f35354d7ce89636.jpg`)
+              ElgazarBot.sendMessage(from, { image: buffergmscat, caption: '*♚ مرحبا بك في كت*\nꔹ━━「🩸」━━ꔹ\n'+ xeongmscat }, {quoted:m})
               break
        
        case 'isjshsd': case 'انصح':
@@ -5044,8 +5285,8 @@ case 'dare': case 'تويت':
 " كنت نصحت نفسي ياخويا😹",
 ]
               const xeonisjshsd = isjshsd[Math.floor(Math.random() * isjshsd.length)]
-              bufferisjshsd = await getBuffer(`https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`)
-              ElgazarBot.sendMessage(from, { image: bufferisjshsd, caption: '*♚ اتفضل النصيحه اعمل بيها*\nꔹ━━━━━ꔹ\n'+ xeonisjshsd }, {quoted:m})
+              bufferisjshsd = await getBuffer(`https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`)
+              ElgazarBot.sendMessage(from, { image: bufferisjshsd, caption: '*♚ اتفضل النصيحه اعمل بيها*\nꔹ━━「🩸」━━ꔹ\n'+ xeonisjshsd }, {quoted:m})
               break
        
        case 'idhsisgd': case 'حروف':
@@ -5102,10 +5343,217 @@ case 'dare': case 'تويت':
 "دولة واسم بحرف ⤌ ب  ",
 ]
               const xeonidhsisgd = idhsisgd[Math.floor(Math.random() * idhsisgd.length)]
-              bufferidhsisgd = await getBuffer(`https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`)
-              ElgazarBot.sendMessage(from, { image: bufferidhsisgd, caption: '*♚ مرحبا بك في لعبة الحروف*\nꔹ━━━━━ꔹ\n'+ xeonidhsisgd }, {quoted:m})
+              bufferidhsisgd = await getBuffer(`https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`)
+              ElgazarBot.sendMessage(from, { image: bufferidhsisgd, caption: '*♚ مرحبا بك في لعبة الحروف*\nꔹ━━「🩸」━━ꔹ\n'+ xeonidhsisgd }, {quoted:m})
               break
        
+       case 'يار':
+                const msg10 = `لطالما احبك ساسكي يا عزيزي لكنك لم تنتبه لذلك اتمنى منكما ان تصلحا قلوب بعضكما
+                    تحياتي ساسكي`
+                await conn.sendMessage(from, { text: msg10 }, { quoted: mek })
+                break
+                
+       case '.': case 'الدعم':
+       ElgazarBot.sendMessage(from, { react: { text: "🎁" , key: m.key }})
+    reply(`⚙ *قروب الدعم:* ⚙https://chat.whatsapp.com/EZe0MlgU0xo8GXtkCpqS0M`)
+    break
+    
+       case 'اوتشيها': case 'isuhsvdgdh':
+    ElgazarBot.sendMessage(from, { react: { text: "😻" , key: m.key }})
+    reply(`*افضل مملكة*`)
+    break
+    
+       case 'انغليس': case 'حبيبتك':
+    ElgazarBot.sendMessage(from, { react: { text: "❤️" , key: m.key }})
+    reply(`*انغليـــس الحب✨❤️*`)
+    break
+    
+       case 'زوجتك': case 'حبك':
+    ElgazarBot.sendMessage(from, { react: { text: "❤️" , key: m.key }})
+    reply(`*زوجتي انغليـــس الحب✨❤️️*`)
+    break
+    
+       case 'بوت': case 'البوت':
+    ElgazarBot.sendMessage(from, { react: { text: "" , key: m.key }})
+    reply(`*البوت متصل يرجى عدم الازعاج وشكرا*ً`)
+    break
+    
+       case 'سلام': case 'السلام':
+    
+    reply(`*وعليكم السلام ورحمة الله وبركاته*`)
+    break
+    
+       case 'هلا': case 'اهلا':
+    
+    reply(`*نورت الجروب يا شمس المجرات🤟🏻♥*`)
+    break
+    
+       case 'منور': case 'منوره':
+    
+    reply(`*نورك العاكس🫡🤍*`)
+    break
+    
+       case 'ون': case 'ونبيس':
+    
+    reply(`*تصحيح لكلامك اسمه ون بيض*`)
+    break
+    
+       case 'فيزا': case 'الفيزا':
+    
+    reply(`Matrial:-
+
+Card:-
+5472920000383650|12|2026|055
+Random Test Credit Card Numbers Generator
+https://namso-gen.com/​
+
+Country:-
+Indonesia
+
+Billing address line 1:-
+Jl Pejaten Raya 28 KC, Dki Jakarta
+
+City:-
+Dki Jakarta
+
+State/Province:-
+Jakarta
+
+Postal code:-
+50181
+`)
+    break
+    
+       case 'فيزا2': case 'الفيزا2':
+    
+    reply(`*⛧الفيزا
+
+البطاقه:-
+5244470000521278|02|2028|341
+
+
+ال cvv:-
+055
+
+
+الاسم الاول:-
+Sasuke
+
+
+الاسم الاخير:-
+Eslam
+
+
+البلد:-
+مصر
+
+
+
+سطر عنوان الفاتوره:-
+السويس
+
+
+المدينه:-
+السويس
+
+
+الولايه المقاطعه:-
+السويس
+
+
+الرمز البريدي:-
+8136010
+
+*`)
+    break
+    
+       case 'كيفك': case 'كيفكم':
+    
+    reply(`*بخير دامك بخير*`)
+    break
+    
+       case 'هاي': case 'هلو':
+    
+    reply(`*استرجل وقول السلام عليكم*`)
+    break
+    
+       case 'جيبوصف': case 'منكن':
+    ElgazarBot.sendMessage(from, { react: { text: "😛" , key: m.key }})
+    	let lel = [`Ask Your Gf`, `I Dont Know`, `I Don't Know, Ask Your Father`]
+                let kah = lel[Math.floor(Math.random() * lel.length)]
+                let jawab = `*منكن ${text}*\nالاجابه : ${kah}`
+    break
+    
+       case 'نعم': case 'jshsvsheg':
+    
+    reply(`*نعم الله علي نسل عيلتك*`)
+    break
+    
+       case 'اتفق': case 'نتفق':
+    
+    reply(`*اطلق من يتفق*`)
+    break
+    
+       case 'كلزق': case 'كلخرا':
+    
+    reply(`*لا ماباكلك🦉*`)
+    break
+    
+       case 'كفو': case 'رجال':
+    
+    reply(`كفوك الطيب`)
+    break
+    
+       case 'يب': case 'يس':
+    
+    reply(`*يب في عينك اسمها نعم*`)
+    break
+ 
+       case 'تم': case 'تمام':
+    
+    reply(`*تتم افراحك*`)
+    break 
+    
+       case 'ليش': case 'ليه':
+    
+    reply(`*لأنك خواجه*`)
+    break 
+    
+       case '😂': case 'ههه':
+    
+    reply(`*دوم الضحكه الحلوه يا قمر🤟🏻♥*`)
+    break 
+    
+       case 'احبك': case 'بحبك':
+    
+    reply(`*وانا كمان احبـك يعمـري ❤️🥹*`)
+    break 
+    
+       case '🥲': case '🥲🥲':
+    
+    reply(`*لا تحزن ياصغيري وانظر للسماء ❤️*`)
+    break 
+    
+       case 'حبي': case 'حبيبي':
+    
+    reply(`*انتي الحـب يقلبـي ❤️🥹*`)
+    break 
+    
+       case 'فديتك': case 'يقلبي':
+    
+    reply(`*فديتك يرووووحي ❤️🥹*`)
+    break 
+    
+       case 'طرد': case 'اضافه': case 'kick': case 'add':
+    
+    reply(`*هــذا الأمــر معطــل للأســف🚫 لانه يوقف رقم البوت*`)
+    break 
+    
+       case 'كسمك': case 'كسم': case 'عرص': case 'كسمه': case 'قحبه': case 'جرار': case 'قواد': case 'nigga': case 'انيكك': case 'منيك': case 'عرصه': case 'فكيو': case 'fuck': case '🖕': case 'محخث': case 'زبي':
+    ElgazarBot.sendMessage(from, { react: { text: "❌" , key: m.key }})
+    reply(`*عيـب الشـتم يبنـي*`)
+    break
+    
        case 'jtudvu': case 'اسال':
               const jtudvu =[
    "أكثر جملة أثرت بك في حياتك؟ ",
@@ -5351,8 +5799,8 @@ case 'dare': case 'تويت':
 "سورتان في القرآن الكريم معروفتين باسم الزهراوان، فما هما؟ ",
 ]
               const xeonjtudvu = jtudvu[Math.floor(Math.random() * jtudvu.length)]
-              bufferjtudvu = await getBuffer(`https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`)
-              ElgazarBot.sendMessage(from, { image: bufferjtudvu, caption: '*♚ اتفضل سوال يلا جاوب*\nꔹ━━━━━ꔹ\n'+ xeonjtudvu }, {quoted:m})
+              bufferjtudvu = await getBuffer(`https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`)
+              ElgazarBot.sendMessage(from, { image: bufferjtudvu, caption: '*♚ اتفضل سوال يلا جاوب*\nꔹ━━「🩸」━━ꔹ\n'+ xeonjtudvu }, {quoted:m})
               break
        
 case 'عكس': {
@@ -5519,8 +5967,8 @@ ${themeemoji} *Media Url* : ${images}`,
                 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
         }
         break
-case 'صوره':
-case 'image': case 'صورة': {
+case 'ابباتنعفيياتعببيي':
+case 'image': case 'تلبغههليلتتتالف': {
                 m.reply(mess.wait)
 		let { pinterest } = require('./lib/scraperW')
                 anuxeonezy2 = await pinterest(text)
@@ -6637,11 +7085,6 @@ m.reply(mess.wait)
                     return('Error!')
                 })
 break
-
-case 'طرد':
-if (!text) return m.reply(`هذا الامر معطل لانه يحظر رقم البوت🚫`)
-break
-
 case 'animehighfive':
 m.reply(mess.wait)						
  waifudd = await axios.get(`https://api.waifu.pics/sfw/highfive`)
@@ -6839,7 +7282,7 @@ let animetxt = `
 ❄ *الوصف:* ${anime.synopsis}*`
                 await ElgazarBot.sendMessage(m.chat,{image:{url:anime.picture}, caption:animetxt},{quoted:m})
                 break
-case 'patrick':
+case 'بسيط':
 case 'patricksticker': {
 var ano = await fetchJson('https://raw.githubusercontent.com/DGXeon/XeonMedia/main/patrick')
 var wifegerak = ano.split('\n')
@@ -6855,7 +7298,7 @@ case 'ttp': {
                      }
                      break
 case 'dogesticker':
-case 'dogestick':
+case 'كلب':
 	case 'doge':{
 var ano = await fetchJson('https://raw.githubusercontent.com/DGXeon/XeonMedia/main/doge')
 var wifegerak = ano.split('\n')
@@ -6882,21 +7325,21 @@ encmedia = await ElgazarBot.sendImageAsSticker(from, wifegerakx, m, { packname: 
 await fs.unlinkSync(encmedia)
 }
 break
-            case 'can': {
-            	if (!text) throw `Ask question\n\nExample : ${prefix + command} i dance?`
-            	let bisa = [`Can`,`Can't`,`Cannot`,`Of Course You Can!!!`]
+            case 'اذااياياي': case 'hhxbdbdhdh': {
+            	if (!text) throw `رد\n\nرايزل عمك`
+            	let bisa = [`لطيف`,`احمق`,`غبي`,`ممممم!!!`]
                 let keh = bisa[Math.floor(Math.random() * bisa.length)]
-                let jawab = `*Can ${text}*\nAnswer : ${keh}`
+                let jawab = `*بوت ${text}*\nرايزل : ${keh}`
                 let buttons = [{ buttonId: 'hehehe', buttonText: { displayText: 'PATIENT 👀' }, type: 1 }]
             await ElgazarBot.sendButtonText(m.chat, buttons, jawab, botname, m)
             }
             break
-            case 'is': {
-            	if (!text) throw `Ask question\n\nExample : ${prefix + command} she virgin?`
-            	let apa = [`Yes`, `No`, `It Could Be`, `Thats right`]
+            case 'هل': {
+            	if (!text) throw `تعلم يبني\n\nمثال : ${prefix + command} انا غبي؟`
+            	let apa = [`نعم`, `لا`, `مدري`, `لاتزعجني ياخي`, `لا اعلم ياصاح`, `لا اعلم`, `اسأل عمك رايزل`]
                 let kah = apa[Math.floor(Math.random() * apa.length)]
-                let jawab = `*Is ${text}*\nAnswer : ${kah}`
-                let buttons = [{ buttonId: 'hehehe', buttonText: { displayText: 'HAHAHA' }, type: 1 }]
+                let jawab = `*هل ${text}*\nالإجابه : ${kah}`
+                let buttons = [{ buttonId: 'hehehe', buttonText: { displayText: 'ههههههههه' }, type: 1 }]
             await ElgazarBot.sendButtonText(m.chat, buttons, jawab, botname, m)
             }
             break
@@ -6945,8 +7388,8 @@ case 'الغباء': {
             await ElgazarBot.sendButtonText(m.chat, buttons, jawab, botname, m)
             }
             break
-case 'بوت': {
-            	let lowq = `*انا متصل يعم متصدعناش🤺:*\n*${runtime(process.uptime())}*`
+case 'لايف': {
+            	let lowq = `*البوت متصل يرجى عدم الإزعاج:*\n*${runtime(process.uptime())}*`
                 let buttons = [{ buttonId: 'menu', buttonText: { displayText: 'الاوامر' }, type: 1 }]
                 await ElgazarBot.sendButtonText(m.chat, buttons, lowq, botname, m, {quoted: fkontak})
             	}
@@ -6966,7 +7409,7 @@ ElgazarBot.sendMessage(from, { text: `*${command}*\n\nالاسم : ${q}\nالا�
 					break
 					case 'شخصيتك':
 					if (!text) return m.reply(`منشن علي شخص, مثال : ${prefix + command} @abdallah`)
-					const xeony =['زفت','واطي','غبي','مطيع','غلبان','جدع','طيب','حبوب','جميل','حمار','محترم','شرموط','كلب','ورع']
+					const xeony =['زفت','واطي','غبي','مطيع','غلبان','جدع','طيب','حبوب','جميل','حمار','محترم','محترم','كلب','ورع']
 					const taky = xeony[Math.floor(Math.random() * xeony.length)]
 					ElgazarBot.sendMessage(from, { text: `التحقق من الشخصيه : ${q}\nالاجابه : *${taky}*` }, { quoted: m })
 				     break
@@ -6980,7 +7423,7 @@ ElgazarBot.sendMessage(from, { text: `*${command}*\n\nالاسم : ${q}\nالا�
                  case 'prettycheck':
                     case 'lovelycheck':
                       case 'uglycheck':
-				if (!text) return m.reply(`منشن علي شخص, مثال : ${prefix + command} @abdallah`)
+				if (!text) return m.reply(`منشن علي شخص, مثال : ${prefix + command} @رايزل جورج`)
 					const sangeh = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61','62','63','64','65','66','67','68','69','70','71','72','73','74','75','76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94','95','96','97','98','99','100']
 					const sange = sangeh[Math.floor(Math.random() * sangeh.length)]
 ElgazarBot.sendMessage(from, { text: `*${command}*\n\nالاسم : ${q}\nالاجابه : *${sange}%*` }, { quoted: m })
@@ -7174,29 +7617,29 @@ const reply = `
     break
 case 'السورس': case 'script': {
 teks = `⋆ تم تطوير وبرمجه هذا السورس •
-⋆ بواسطه عبدالله محمد •
+⋆ بواسطه جورج رايزل •
 ⋆ يمكنك التواصل مع المبرمج عبر التيلجرام ⤌⤈
- t.me/A_M_030
-تبعني عبر اليوتيوب ⤌⤈
-https://youtube.com/@ABDALLAH_MOHAMED
-واشترك وفعل الجرس وانتظر شروحات للبرمجه..🌍🔥`
+ t.me/@r_iz0
+تابعني عبر واتساب ⤌⤈
+wa.me/+967770500831
+برمجه وشروحات..🌍🔥`
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
@@ -7206,35 +7649,34 @@ ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
 case 'التنصيب': case 'التسجيل': {
 teks = `• مرحبا ياروحي ⤌⤈       
 𓆩 *${pushname}* 𓆪
-• انا بوت واتس اسمي ⤌⤈
+• انا بوت واتس  ⤌⤈
 𓆩 *${global.botname}* 𓆪
 • تم تطويري وبرمجتي •
-• بواسطه عبدالله محمد •
+• بواسطه جورج رايزل •
 • اذا كنت تريد صنع بوت مماثل لهذا •
 يجب عليك الانظمام لهذه القناه وسماع الشروحات لتنصيب بوت وتس مثل هذا البوت
  
-قناة برمجه الجزار للشروحات
-https://youtube.com/@ABDALLAH_MOHAMED
-
+حساب انستا المطور
+https://instagram.com/6tl_v?igshid=YmMyMTA2M2Y=
 لينك شاتي 
-https://api.whatsapp.com/send?phone=+201098906252`
+https://api.whatsapp.com/send?phone=+967770500831`
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
@@ -8155,8 +8597,8 @@ if (args.length == 0) return m.reply(`اكتب ${prefix+command} والعدد\n�
 amount = `${encodeURI(q)}`
 ydd = `${botname}`
 for (let i = 0; i < amount; i++) {
-let teks = `══✪〘 *منشن للكل* 〙✪══
- ${themeemoji} *الرساله : ${q ? q : 'مفيش رساله'}*\n\n`
+let teks = `══｢منشن جماعي｣══
+ ${themeemoji} *الرساله : ${q ? q : 'صحو نوم'}*\n\n`
 for (let mem of participants) {
 teks += `${themeemoji} @${mem.id.split('@')[0]}\n`
 ElgazarBot.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted: doc })}
@@ -8414,37 +8856,37 @@ break*/
 case 'م1': case 'اوامر الاعضاء': {
 teks = `• مرحبا ياروحي ⤌⤈       
 𓆩 *${pushname}* 𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر الاعضاء𓆪 
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .السرعه )
 ♚ لمعرفة معلومات البوت 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .التنصيب )
 ♚ لعرض روابط وصنع بوت مشابه
-ꔹ━━━━━ꔹ
+ꔹ━━⚜️━━ꔹ
 ( .المطور )
 ♚ لمعرفه مطور البوت 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .انطق )
 ♚ البوت ينطق المكتوب`
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
@@ -8454,55 +8896,55 @@ ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
 case 'م2': case 'اوامر المالك': {
 teks = `• مرحبا ياروحي ⤌⤈       
 𓆩 *${pushname}* 𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر المالك𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .عام )
 ♚ يجعل البوت عام للجميع  
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .خاص )
 ♚ يجعل البوت خاص للمالك فقط
-ꔹ━━━━━ꔹ
+✭𖤍ꔹ━━「🩸」━━ꔹ
 ( .حظر )
 ♚ حظر شخص من استخدام البوت 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .بان )
 ♚ حظر اي جروب من استخدام البوت 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .اخرج )
 ♚ خروج البوت من الجروب 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .انضم )
 ♚ ينضم البوت لجروب عبر الرابط
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .بلوك )
 ♚ عمل بلوك لشخص من البوت 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .فك-البلوك )
 ♚ الغاء البلوك عن الشخص 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .اذاعه )
 ♚ عمل اذاعه لكل الجروبات في البوت
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .جلب )
 ♚ يجلب لك ملفات سكريبت جيثب `
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
@@ -8512,82 +8954,82 @@ ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
 case 'م3': case 'اوامر الجروبات': {
 teks = `• مرحبا ياروحي ⤌⤈       
 𓆩 *${pushname}* 𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر الجروب𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .منشن )
 ♚ منشن جماعي لكل الاعضاء
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .مخفي )
 ♚ منشن مخفي لكل الاعضاء 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .حذف )
 ♚ حذف رسالة البوت والاعضاء
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .لينك )
 ♚ جلب رابط الجروب 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .رستر )
 ♚ رستارت لرابط الجروب 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .رفع )
 ♚ رفع عضو لمشرف 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .تنزيل )
 ♚ تنزيل عضو من المشرف 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .تغيرالاسم )
 ♚ تغيير اسم الجروب 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .تغيرالبايو )
 ♚ تغيير وصف الجروب 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .تغيرالصوره )
 ♚ تغيير صورة الجروب 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .جروب )
 ♚ غلق وفتح الجروب 
- ꔹ━━━━━ꔹ
-( .طرد )
+ ꔹ━━「🩸」━━ꔹ
+( .طرد ) معطل
 ♚ طرد شخص من الجروب 
- ꔹ━━━━━ꔹ
-( . اضافه )
+ ꔹ━━「🩸」━━ꔹ
+( . اضافه ) معطل
 ♚ اضافه شخص للجروب
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .الروابط )
 ♚ منع ارسال الروابط في الجروب 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .السب )
 ♚ لمنع الشتايم والسب في الجروبات
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .الحب )
 ♚ جلب نسبه حب الشخص لك
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .الكره )
 ♚ نسبه كره الشخص لك
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .شخصيتك )
 ♚ البوت يعرفك شخصيتك
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .الجمال )
 ♚ يجلب لك نسبه جمالك`
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
@@ -8597,64 +9039,64 @@ ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
 case 'م4': case 'اوامر التنزيل': {
 teks = `• مرحبا ياروحي ⤌⤈       
 𓆩 *${pushname}* 𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر التنزيل𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .ميديافاير )
 ♚ التنزيل من ميديا فاير
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .انستجرام )
 ♚ التنزيل من انستجرام
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .تيكتوك )
 ♚ التنزيل من تيكتوك 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .شغل )
 ♚ البحث عن مقطع أغنية في يوتيوب
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .تشغيل )
 ♚ قائمه بحث علي اغاني في يوتيوب
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .انمي )
 ♚ البحث عن خلفية انمي 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .صوره )
 ♚ البحث عن صور عشوائية 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .تطقيم )
 ♚ جلب تطقيمات 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .فيديو )
 ♚ تنزيل فيديو من يوتيوب بالرابط
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .اغنيه )
 ♚ تنزيل اغنيه من يوتيوب بالرابط
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .خلفيات )
 ♚ تنزيل خلفيات
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .ويلبر )
 ♚ تنزيل صور ويلبر للتليفون
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .تخمين )
 ♚ تخمين ارقام مشابهه لرقمك`
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
@@ -8664,58 +9106,58 @@ ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
 case 'م5': case 'اوامر التحويل': {
 teks = `• مرحبا ياروحي ⤌⤈       
 𓆩 *${pushname}* 𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر التحويل𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .مـلـصـق )
 ♚ انشاء ملصقات عادية ومتحركة 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .سرقه )
 ♚ انشاء ملصق بحقوقك 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .دمج )
 ♚ دمج اثنين من الاموجي 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .لصورة )
 ♚ تحويل ملصق عادي لصورة 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .لفيديو )
 ♚ تحويل ملصق متحرك لفيديو 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .لصوتي )
 ♚ تحويل فيديو لصوتية 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .لمتحرك )
 ♚ تحويل ملصق لمتحرك
- ꔹ━━━━━ꔹ
- ( .اظبطها )
+ ꔹ━━「🩸」━━ꔹ
+ ( .ظبطها )
 ♚ لحذف خلفيه الصور
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
  ( .ايموجي )
 ♚ تحويل ايموجي لصوره
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .تقصير )
 ♚ تقصير الروابط وجعلها قصيره
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .اكتب )
 ♚ يكتب لك علي الملصق`
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃 ",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
@@ -8725,49 +9167,49 @@ ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
 case 'م6': case 'اوامر تغير الصوت': {
 teks = `• مرحبا ياروحي ⤌⤈       
 𓆩 *${pushname}* 𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر تغير الصوت𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .دبه )
 ♚ عمل دبه لصوت الاغنيه
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .ضوضاء )
 ♚ عمل ضوضاء لصوت الاغنيه
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .بطئ )
 ♚ عمل تبطئ لصوت الاغنيه
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .بطئ2 )
 ♚ عمل تبطئ لصوت الاغنيه
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .سريع )
 ♚ عمل تسريع لصوت الاغنيه
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .طفل )
 ♚ عمل الاغنيه بصوت طفل
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .عكس )
 ♚ عمل عكس لاغنيه 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .روبوت )
 ♚ عمل الاغنيه بصوت روبوت`
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃 ",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
@@ -8777,85 +9219,85 @@ ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
 case 'م7': case 'اوامر التسليه': {
 teks = `• مرحبا ياروحي ⤌⤈       
 𓆩 *${pushname}* 𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر التسليه𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .اكس )
 ♚ لعبه اكس او
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .مغادره )
 ♚ مغادره الجيم في اكس او
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .الفاكهه )
 ♚ لعبه الفاكهه
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .زواج )
 ♚ البوت يزوج اثنين عشوائي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .طلاق )
 ♚ البوت يطلق اثنين عشوائي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .زوجني )
 ♚ البوت يزوجك من شخص عشوائي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .طلقني )
 ♚ البوت يطلقك من شخص عشوائي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .رفيق )
 ♚ البوت يجيب لك رفيق عشوائي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .فراق )
 ♚ البوت يفارقك من رفيقك
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .عكس )
 ♚ عكس كلمة او جملة 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .اختفاء )
 ♚ اترك سبب ذهابك
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .لولي )
 ♚ صوره عشوائيه لـ لولي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .نيكو )
 ♚ صوره عشوائيه لـ نيكو
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .فيد )
 ♚ صوره عشوائيه لـ فيد
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .انمي )
 ♚ صوره عشوائيه لـ انمي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .قهوه )
 ♚ صوره عشوائيه لـ قهوه
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 (. وايفي2 )
 ♚ صوره عشوائيه لـ وايفي2
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .نيكو2 )
 ♚ صوره عشوائيه لـ نيكو2
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .نوم )
 ♚ صوره عشوائيه لـ نوم
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .مانجا )
 ♚ صوره عشوائيه لـ مانجا`
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"ᴇ𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃 ",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
@@ -8866,53 +9308,53 @@ ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
 case 'مميزات': case 'المميزات': {
 teks = `• مرحبا ياروحي ⤌⤈       
 𓆩 *${pushname}* 𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة بمميزات البوت𓆪 
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .اذكار )
 ♚ البوت يرسل لك اذكار عشوائيه
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .تويت )
 ♚ البوت يسالك اساله حياتيه
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .انصح )
 ♚ البوت يبعتلك نصايح عشوائيه
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .صراحه )
 ♚ البوت يبعتلك اسئله صراحه
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .اسال )
 ♚ البوت يسالك ونت جاوب
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .خيروك )
 ♚ البوت يخيرك بين حاجتين
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .كت )
 ♚ البوت يجيب اسماء انمي
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .بوست )
 ♚ البوت يرسلك لك بوست عشوائي
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .حروف )
 ♚ البوت يرسلك حروف تكملها
-ꔹ━━━━━ꔹ`
+ꔹ━━「🩸」━━ꔹ`
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃 ",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
@@ -8927,291 +9369,291 @@ teks = `• مرحبا ياروحي ⤌⤈
 • اعمل في الخاص وجروبات •
 • وظيفتي حماية جروبك •
 • تفضل اوامر البوت •
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر الاعضاء𓆪 
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .السرعه )
 ♚ لمعرفة معلومات البوت 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .التنصيب )
 ♚ لعرض روابط وصنع بوت مشابه
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .المطور )
 ♚ لمعرفه مطور البوت 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .انطق )
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر المالك𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .عام )
 ♚ يجعل البوت عام للجميع  
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .خاص )
 ♚ يجعل البوت خاص للمالك فقط
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .اخرج )
 ♚ خروج البوت من الجروب 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .انضم )
 ♚ ينضم البوت لجروب عبر الرابط
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .بلوك )
 ♚ عمل بلوك لشخص من البوت 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .فك-البلوك )
 ♚ الغاء البلوك عن الشخص 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .مميز )
 ♚ جعل شخص مميز بالبوت
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .عادي )
 ♚ جعل شخص عادي بالبوت وغير مميز
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .اذاعه )
 ♚ عمل اذاعه لكل الجروبات في البوت
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .جلب )
 ♚ يجلب لك ملفات سكريبت جيثب 
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر الجروب𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .منشن )
 ♚ منشن جماعي لكل الاعضاء
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .مخفي )
 ♚ منشن مخفي لكل الاعضاء 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .المتصلين )
 ♚ يجيب لك الاعضاء المتصله
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .حذف )
 ♚ حذف رسالة البوت والاعضاء
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .لينك )
 ♚ جلب رابط الجروب 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .رستر )
 ♚ رستارت لرابط الجروب 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .رفع )
 ♚ رفع عضو لمشرف 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .تنزيل )
 ♚ تنزيل عضو من المشرف 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .تغيرالاسم )
 ♚ تغيير اسم الجروب 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .تغيرالبايو )
 ♚ تغيير وصف الجروب 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .تغيرالصوره )
 ♚ تغيير صورة الجروب 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .جروب )
 ♚ غلق وفتح الجروب 
- ꔹ━━━━━ꔹ
-( .طرد )
+ ꔹ━━「🩸」━━ꔹ
+( .طرد ) معطل
 ♚ طرد شخص من الجروب 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( . اضافه )
 ♚ اضافه شخص للجروب
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .الروابط )
 ♚ منع ارسال الروابط في الجروب
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .السب )
 ♚ لمنع الشتايم والسب في الجروبات
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .الحب )
 ♚ جلب نسبه حب الشخص لك
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .الكره )
 ♚ نسبه كره الشخص لك
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .شخصيتك )
 ♚ البوت يعرفك شخصيتك
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .الجمال )
 ♚ يجلب لك نسبه جمالك
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر التنزيل𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .ميديافاير )
 ♚ التنزيل من ميديا فاير
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .انستجرام )
 ♚ التنزيل من انستجرام
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .تيكتوك )
 ♚ التنزيل من تيكتوك 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .شغل )
 ♚ البحث عن مقطع أغنية في يوتيوب
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .تشغيل )
 ♚ قائمه بحث علي اغاني في يوتيوب
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .انمي )
 ♚ البحث عن خلفية انمي 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .صوره )
 ♚ البحث عن صور عشوائية 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .تطقيم )
 ♚ جلب تطقيمات 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .فيديو )
 ♚ تنزيل فيديو من يوتيوب بالرابط
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .اغنيه )
 ♚ تنزيل اغنيه من يوتيوب بالرابط
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .خلفيات )
 ♚ تنزيل خلفيات
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .ويلبر )
 ♚ تنزيل صور ويلبر للتليفون
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .تخمين )
 ♚ تخمين ارقام مشابهه لرقمك
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر التحويل𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .مـلـصـق )
 ♚ انشاء ملصقات عادية ومتحركة 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .سرقه )
 ♚ انشاء ملصق بحقوقك 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .دمج )
 ♚ دمج اثنين من الاموجي 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .لصورة )
 ♚ تحويل ملصق عادي لصورة 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .لفيديو )
 ♚ تحويل ملصق متحرك لفيديو 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .لصوتي )
 ♚ تحويل فيديو لصوتية 
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .لمتحرك )
 ♚ تحويل ملصق لمتحرك
- ꔹ━━━━━ꔹ
- ( .اظبطها )
+ ꔹ━━「🩸」━━ꔹ
+ ( .ظبطها )
 ♚ لحذف خلفيه الصور
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
  ( .ايموجي )
 ♚ تحويل ايموجي لصوره
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .تقصير )
 ♚ تقصير الروابط وجعلها قصيره
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .اكتب )
 ♚ يكتب لك علي الملصق
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر تغير الصوت𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .دبه )
 ♚ عمل دبه لصوت الاغنيه
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .ضوضاء )
 ♚ عمل ضوضاء لصوت الاغنيه
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .بطئ )
 ♚ عمل تبطئ لصوت الاغنيه
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .بطئ2 )
 ♚ عمل تبطئ لصوت الاغنيه
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .سريع )
 ♚ عمل تسريع لصوت الاغنيه
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .طفل )
 ♚ عمل الاغنيه بصوت طفل
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .عكس )
 ♚ عمل عكس لاغنيه 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .روبوت )
 ♚ عمل الاغنيه بصوت روبوت
-𓍹——————————𓍻
+⟐━──━━───━⟐
 𓆩اليك قائمة باوامر التسليه𓆪
-𓍹——————————𓍻
+⟐━──━━───━⟐
 ( .اكس )
 ♚ لعبه اكس او
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .مغادره )
 ♚ مغادره الجيم في اكس او
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .زواج )
 ♚ البوت يزوج اثنين عشوائي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .طلاق )
 ♚ البوت يطلق اثنين عشوائي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .زوجني )
 ♚ البوت يزوجك من شخص عشوائي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .طلقني )
 ♚ البوت يطلقك من شخص عشوائي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .رفيق )
 ♚ البوت يجيب لك رفيق عشوائي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .فراق )
 ♚ البوت يفارقك من رفيقك
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .عكس )
 ♚ عكس كلمة او جملة 
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .اختفاء )
 ♚ اترك سبب ذاهبك
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .لولي )
 ♚ صوره عشوائيه لـ لولي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .نيكو )
 ♚ صوره عشوائيه لـ نيكو
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .فيد )
 ♚ صوره عشوائيه لـ فيد
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .انمي )
 ♚ صوره عشوائيه لـ انمي
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .قهوه )
 ♚ صوره عشوائيه لـ قهوه
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 (. وايفي2 )
 ♚ صوره عشوائيه لـ وايفي2
-ꔹ━━━━━ꔹ
+ꔹ━━「🩸」━━ꔹ
 ( .نيكو2 )
 ♚ صوره عشوائيه لـ نيكو2
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
  ( .نوم )
 ♚ صوره عشوائيه لـ نوم
- ꔹ━━━━━ꔹ
+ ꔹ━━「🩸」━━ꔹ
 ( .مانجا )
 ♚ صوره عشوائيه لـ مانجا`
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
@@ -9219,47 +9661,53 @@ ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
             break
 
 case 'الاوامر': case 'اوامر': case 'menu': case 'alive': {
-teks = `•╗ مرحبا ياعزيزي ⤌⤈       
-𓆩 *${pushname}* 𓆪
-•╣ انا بوت واتس اسمي
-𓆩 *${global.botname}* 𓆪
-•╣ اعمل في الخاص وجروبات
-•╣ وظيفتي حماية جروبك
-•╣ اكتب كلمه .الاوامر لمعرفه
-•╣ اوامر البوت وطريقه الاستخدام
-•╣ مميزات البوت كثيره جدا 
-•╝ ويعمل بجودة فائقه وعاليه
-𓍹————————————𓍻
-𓆩قائمة اوامر سورس الجزار𓆪 
-𓍹————————————𓍻
-( .م1 ) ☞ اوامر الاعضاء
-( .م2 ) ☞ اوامر المالك
-( .م3 ) ☞  اوامر الجروبات
-( .م4 ) ☞ اوامر البحث وتنزيل
-( .م5 ) ☞ اوامر التحويل
-( .م6 ) ☞ اوامر تغيير الصوت
-( .م7 ) ☞ اوامر التسليه
-( .م8 ) ☞ لعرض جميع الاومر
-.المميزات ☞ لعرض مميزات البوت
-.المطور ☞ لعرض مطور البوت
-.السورس ☞ لعرض المبرمج`
+teks = `*❒═━═「𝚁𝙰𝙸𝚉𝙴𝙻」═━═❒*
+*⧉┆مرحبا ياصديقي ⤌⤈*    
+*•| ⊱${pushname}⊰ |•*
+*⧉┆انا بوت واتس اسمي*
+•| ⊱${global.botname}⊰ |•
+•➥┆ اعمل في الخاص والقروبات
+•➥┆ وظيفتي هي حماية قروبك
+•➥┆ اكتب كلمه *.الاوامر* 
+•➥┆ لمعرفة اوامـــــر البوت  
+•➥┆ مميزات البوت كثيره جدا 
+•➥┆ ويعمل بجودة فائقه وعاليه
+*❒═━═「Uchiha」═━═❒*
+*✦┃الدعم:* 
+*「   https://chat.whatsapp.com/GykSx0DWlub27Jf5VWlHsE 」*
+*❒═━═「𝐔𝐂𝐇𝐈𝐇𝐀」═━═❒*
+* 𝐔𝐂𝐇𝐈𝐇𝐀 𝐁𝐎𝐓 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒⺀*
+*❒═━═「𝐔𝐂𝐇𝐈𝐇𝐀」═━═❒*
+*┇.م1┇↜⟬ اوامر الاعضاء ⟭*
+*┇.م2┇↜⟬ اوامر المالك ⟭*
+*┇.م3┇↜⟬ اوامر القروبات ⟭*
+*┇.م4┇↜⟬ اوامر البحث والتنريل ⟭*
+*┇.م5┇↜⟬ اوامر التحميل ⟭*
+*┇.م6┇↜⟬ اوامر تغيير الصوت ⟭*
+*┇.م7┇↜⟬ اوامر التسليه ⟭*
+*┇.م8┇↜⟬ لعرض جميع الأوامر ⟭*
+*❒═━═「𝐔𝐂𝐇𝐈𝐇𝐀」═━═❒*
+「 .المميزات 」┆لعرض مميزات البوت
+「 .المطور 」┆لعرض مطور البوت
+「 .السورس 」┆لعرض المبرمج
+*❒═━═「𝐔𝐂𝐇𝐈𝐇𝐀」═━═❒*`
 let buttons = [
 {buttonId: `owner`, buttonText: {displayText: 'المطور👤'}, type: 1}
 ]
 let buttonMessage = {
-image: {url: `https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg`},
+image: {url: `https://telegra.ph/file/eab1513c262f8b276a2c5.jpg`},
 jpegThumbnail: log0,
 caption: teks,
 footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇʟɢᴀᴢᴀʀ ʙᴏт",
-body: "سورس الجزار", 
+title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
+body: "سورس رايزل", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
-mediaUrl: 'https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg',
-sourceUrl: "https://telegra.ph/file/e6259010eb14f0e5fb98d.jpg"
+mediaUrl: 'https://telegra.ph/file/eab1513c262f8b276a2c5.jpg',
+sourceUrl: "https://telegra.ph/file/eab1513c262f8b276a2c5.jpg"
 }}
 }
 ElgazarBot.sendMessage(m.chat, buttonMessage, { quoted: m })
