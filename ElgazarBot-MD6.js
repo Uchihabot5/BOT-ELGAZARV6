@@ -7468,14 +7468,14 @@ ElgazarBot.sendMessage(from, { text: `*${command}*\n\nالاسم : ${q}\nالا�
       case 'وصخ':
       case 'ورع':
       case 'شاذ':
-      case 'علق':
-      case 'متناك':
-      case 'خول':
+      case 'ممحون':
+      case 'زنجي':
+      case 'مشمحترم':
       case 'وسخ':
-      case 'مكروف':
+      case 'كاريزما':
       case 'هطف':
       case 'اهبل':
-      case 'معرص':
+      case 'رخم':
       case 'عبقري':
       case 'اهطل': {
             if (!m.isGroup) return m.reply(`${mess.group}`)
