@@ -171,7 +171,7 @@ XeonLft = await getBuffer(ppuser)
                 xeonbody = `⋆ اهلا بيك يا..
  @${xeonName.split("@")[0]},
 ꔹ━━━━━ꔹ
-⋆ نورت جروب..
+⋆ ايـش ذا النور الي هل فجأه اه تذكرت لقد انرتنا❤🤟🏻..
 ${metadata.subject}.
 ꔹ━━━━━ꔹ
 ⋆ عدد الاعضاء..
@@ -182,7 +182,7 @@ ${xtime} ${xdate}
 ꔹ━━━━━ꔹ
 ⋆ من فضلك التزم بالقوانين..`
 let buttons = [
-{buttonId: `wkwwk`, buttonText: {displayText: 'نورت الجروب يحب♥✨'}, type: 1}
+{buttonId: `wkwwk`, buttonText: {displayText: 'نـورت الجروب ياقلبي❤'}, type: 1}
 ]
 let buttonMessage = {
 document: fs.readFileSync('./XeonMedia/theme/cheems.xlsx'),
@@ -197,7 +197,7 @@ buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
 title: `${ownername}`,
-body: `نورت الجروب يحب♥✨`,
+body: `نورت الجـروب يا قلبي❤`,
 mediaType:2,
 thumbnail: XeonWlcm,
 sourceUrl: `${websitex}`,
@@ -215,8 +215,8 @@ ElgazarBot.sendMessage(anu.id, buttonMessage, {quoted:unicorndoc})
                     xeonbody = `⋆ مع السلامه 👋
 , @${xeonName.split("@")[0]}, 
 ꔹ━━━━━ꔹ
-⋆ حد يبقي في جروب قمر زي جروب
-${metadata.subject} ويغادر😂.
+⋆ اقـفل الباب وراك من فضلك🖤🤟🏻
+${metadata.subject} .
 ꔹ━━━━━ꔹ
 ⋆ عدد الاعضاء..
 ${xeonmembers} عضو
@@ -225,7 +225,7 @@ ${xeonmembers} عضو
 ${xeontime} ${xeondate}
 ꔹ━━━━━ꔹ`
 let buttons = [
-{buttonId: `wkwkwk`, buttonText: {displayText: 'مع السلامه تخرج يجي غيرك😉✨'}, type: 1}
+{buttonId: `wkwkwk`, buttonText: {displayText: 'يلا بالسلامه يحب🤟🏻🖤'}, type: 1}
 ]
 let buttonMessage = {
 document: fs.readFileSync('./XeonMedia/theme/cheems.xlsx'),
@@ -240,7 +240,7 @@ buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
 title: `${ownername}`,
-body: `مع السلامه تخرج يجي غيرك😉✨.`,
+body: `يلا بالسلامه يحب🤟🏻🖤.`,
 mediaType:2,
 thumbnail: XeonLft,
 sourceUrl: `${websitex}`,
