@@ -5359,23 +5359,23 @@ case 'dare': case 'تويت':
     break
     
        case 'اوتشيها': case 'isuhsvdgdh':
-    ElgazarBot.sendMessage(from, { react: { text: "😻" , key: m.key }})
+    ElgazarBot.sendMessage(from, { react: { text: "🩸" , key: m.key }})
     reply(`*افضل مملكة*`)
     break
     
-       case 'انغليس': case 'حبيبتك':
+       case 'نينو': case 'حبيبتك':
     ElgazarBot.sendMessage(from, { react: { text: "❤️" , key: m.key }})
-    reply(`*انغليـــس الحب✨❤️*`)
+    reply(`*نينو الحب✨❤️*`)
     break
     
        case 'زوجتك': case 'حبك':
     ElgazarBot.sendMessage(from, { react: { text: "❤️" , key: m.key }})
-    reply(`*زوجتي انغليـــس الحب✨❤️️*`)
+    reply(`*الحـب نينو الي الابد🤟🏻❤*`)
     break
     
        case 'بوت': case 'البوت':
     ElgazarBot.sendMessage(from, { react: { text: "" , key: m.key }})
-    reply(`*البوت متصل يرجى عدم الازعاج وشكرا*ً`)
+    reply(`*عيون البوت انت🙃❤*ً`)
     break
     
        case 'سلام': case 'السلام':
@@ -5516,7 +5516,7 @@ Eslam
     
        case 'ليش': case 'ليه':
     
-    reply(`*لأنك خواجه*`)
+    reply(`*لأنك الحـب🤟🏻*`)
     break 
     
        case '😂': case 'ههه':
@@ -5804,7 +5804,7 @@ Eslam
               break
        
 case 'عكس': {
-if (args.length < 1) return m.reply(`مثال:\n${prefix}ونبيس عمك ${ownername}`)
+if (args.length < 1) return m.reply(`مثال:\n${prefix}ساسكي عمك ${ownername}`)
 quere = args.join(" ")
 flipe = quere.split('').reverse().join('')
 m.reply(`\`\`\`「 عكس الكلمات 」\`\`\`\n*•> النص المدخل :*\n${quere}\n*•> النص المقلوب :*\n${flipe}`)
@@ -7389,7 +7389,7 @@ case 'الغباء': {
             }
             break
 case 'لايف': {
-            	let lowq = `*البوت متصل يرجى عدم الإزعاج:*\n*${runtime(process.uptime())}*`
+            	let lowq = `*بـوت اوتـشـيـها فالخدمه يا قمر🤟🏻🤍:*\n*${runtime(process.uptime())}*`
                 let buttons = [{ buttonId: 'menu', buttonText: { displayText: 'الاوامر' }, type: 1 }]
                 await ElgazarBot.sendButtonText(m.chat, buttons, lowq, botname, m, {quoted: fkontak})
             	}
@@ -7634,8 +7634,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
-body: "سورس رايزل", 
+title:"𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭",
+body: "سورس ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
@@ -7671,8 +7671,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
-body: "سورس رايزل", 
+title:"𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭",
+body: "سورس ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
@@ -8881,8 +8881,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
-body: "سورس رايزل", 
+title:"𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭",
+body: "سورس ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
@@ -8939,8 +8939,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
-body: "سورس رايزل", 
+title:"𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭",
+body: "سورس ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
@@ -9024,8 +9024,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
-body: "سورس رايزل", 
+title:"𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭",
+body: "سورس ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
@@ -9091,8 +9091,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
-body: "سورس رايزل", 
+title:"𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭",
+body: "سورس ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
@@ -9152,8 +9152,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃 ",
-body: "سورس رايزل", 
+title:"𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭 ",
+body: "سورس ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
@@ -9204,8 +9204,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃 ",
-body: "سورس رايزل", 
+title:"𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭 ",
+body: "سورس ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
@@ -9292,8 +9292,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"ᴇ𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃 ",
-body: "سورس رايزل", 
+title:"ᴇ𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭 ",
+body: "سورس ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
@@ -9349,8 +9349,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃 ",
-body: "سورس رايزل", 
+title:"𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭 ",
+body: "سورس_ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
@@ -9648,8 +9648,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
-body: "سورس رايزل", 
+title:"𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭",
+body: "سورس ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
@@ -9676,7 +9676,7 @@ teks = `*❒═━═「𝐔𝐂𝐇𝐈𝐇𝐀」═━═❒*
 *✦┃الدعم:* 
 *「   https://chat.whatsapp.com/GykSx0DWlub27Jf5VWlHsE 」*
 *❒═━═「𝐔𝐂𝐇𝐈𝐇𝐀」═━═❒*
-* 𝐔𝐂𝐇𝐈𝐇𝐀 𝐁𝐎𝐓 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒⺀*
+*𝐔𝐂𝐇𝐈𝐇𝐀 𝐁𝐎𝐓 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒⺀*
 *❒═━═「𝐔𝐂𝐇𝐈𝐇𝐀」═━═❒*
 *┇.م1┇↜⟬ اوامر الاعضاء ⟭*
 *┇.م2┇↜⟬ اوامر المالك ⟭*
@@ -9702,8 +9702,8 @@ footer: `${botname}`,
 buttons: buttons,
 headerType: 4,
 contextInfo:{externalAdReply:{
-title:"𝚁𝙰𝙸𝚉𝙴𝙻_𝙱𝙾𝚃",
-body: "سورس رايزل", 
+title:"𝐮𝐜𝐡𝐢𝐡𝐚_𝐛𝐨𝐭",
+body: "سورس ساسكي", 
 thumbnail: fs.readFileSync("XeonMedia/theme/cheemspic.jpg"),
 mediaType:1,
 mediaUrl: 'https://telegra.ph/file/daa2085313c04b7932492.jpg',
